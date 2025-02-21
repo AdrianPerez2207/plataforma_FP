@@ -17,6 +17,16 @@ class UserFactory extends Factory
     protected static ?string $password;
 
     /**
+     * Generamos el DNI aleatoriamente
+     * @return string
+     */
+    private function getDNI(){
+        $dni = fake()->numerify('########');
+        $dni .= fake()->randomLetter();
+        return $dni;
+    }
+
+    /**
      * Define the model's default state.
      *
      * @return array<string, mixed>
@@ -24,10 +34,17 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
+            'dni' => $this->getDNI(),
             'name' => fake()->name(),
+            'last_name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
+            'phone_number' => fake()->phoneNumber(),
+            'address' => fake()->address(),
+            'country' => fake()->country(),
+            'specialty' => fake()->word(),
+            'role' => fake()->randomElement(['admin',  'teacher', 'student']),
             'remember_token' => Str::random(10),
         ];
     }
