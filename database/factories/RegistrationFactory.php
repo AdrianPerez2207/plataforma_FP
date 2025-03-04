@@ -19,7 +19,7 @@ class RegistrationFactory extends Factory
     public function definition(): array
     {
         return [
-            'status' => $this->faker->randomElement(['pending', 'approved', 'rejected']),
+            'status' => $this->faker->randomElement(['approved', 'pending', 'cancelled']),
             'course_id' => Course::all()->random()->id,
             'student_id' => User::all()->random()->id,
         ];

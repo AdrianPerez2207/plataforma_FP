@@ -66,6 +66,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Evaluation::class, 'evaluations', 'student_id', 'course_id');
     }
     public function registration(){
-        return $this->hasMany(Registration::class);
+        return $this->hasMany(Registration::class, 'student_id');
+    }
+
+    public function registrationByCourse($course)
+    {
+        return $this->registration()->where('course_id', $course->id)->first();
     }
 }

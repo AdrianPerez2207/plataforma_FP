@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('description');
             $table->enum('category', ['programming', 'design', 'marketing', 'business']);
             $table->string('duration');
-            $table->enum('status', ['active', 'inactive', 'cancelled'])->default('active');
+            $table->enum('status', ['active', 'cancelled'])->default('active');
             $table->foreignId('teacher_id')->constrained('users', 'id')->cascadeOnDelete();
             $table->timestamps();
         });

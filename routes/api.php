@@ -34,5 +34,12 @@ Route::middleware(['auth:sanctum', 'role:teacher,admin'])->group(function () {
     Route::post('/v1/courses', [CourseController::class, 'api_new_course']);
 });
 
+/**
+ * Only administrators can delete courses.
+ */
+Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
+    Route::delete('v1/courses/{id}', [CourseController::class, 'api_delete_course']);
+});
+
 
 

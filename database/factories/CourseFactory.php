@@ -22,7 +22,7 @@ class CourseFactory extends Factory
             'description' => $this->faker->text(),
             'category' => $this->faker->randomElement(['programming', 'design', 'marketing', 'business']),
             'duration' => $this->faker->randomElement(['1 month', '2 months', '3 months', '4 months']),
-            'status' => $this->faker->randomElement(['active', 'inactive', 'cancelled']),
+            'status' => $this->faker->randomElement(['active', 'cancelled']),
             'teacher_id' => User::all()->random()->id,
         ];
     }

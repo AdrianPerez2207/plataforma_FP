@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('registrations', function (Blueprint $table) {
             $table->id();
-            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->enum('status', ['approved', 'pending', 'cancelled'])->default('pending');
             $table->foreignId('course_id')->constrained('courses', 'id')->cascadeOnDelete();
             $table->foreignId('student_id')->constrained('users', 'id')->cascadeOnDelete();
             $table->timestamps();
