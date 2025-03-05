@@ -11,7 +11,6 @@ class UserController extends Controller
 {
 
 
-
     //----Sección API----
     public function api_user_registrations($dni){
         $user = User::where('dni', $dni);

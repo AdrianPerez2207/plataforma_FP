@@ -1,4 +1,4 @@
-<footer class="bg-gray-100 py-16 text-center text-sm text-black dark:bg-gray-800 dark:text-white/70">
+<footer class="bg-gray-100 py-16 text-center text-sm text-black">
     <div class="container mx-auto px-4">
         <h2 class="text-lg font-semibold mb-4">Cursos de Formación Profesional</h2>
         <nav class="mb-8">

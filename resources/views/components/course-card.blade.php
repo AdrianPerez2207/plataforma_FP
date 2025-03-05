@@ -32,25 +32,24 @@
     </div>
     <div class="px-6 py-6 bg-gray-200 flex flex-wrap justify-between">
 
-        @if(auth()->check() && auth()->user()->registrationByCourse($course) != null)
-            <!-- Formulario cancelación -->
-            <form action="{{ route('registrations.update', ['course' => $course->id]) }}" method="POST">
-                @csrf
-                @method('PUT')
-                <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-                <input type="hidden" name="course_id" value="{{ $course->id }}">
-                <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Cancelar Inscripción</button>
-            </form>
+        @php
+            if (auth()->check()){
+                $registration = auth()->user()->registrationByCourse($course);
+            }
+        @endphp
+        @if(auth()->check() && $registration != null)
+            @if($registration->status == 'approved' || $registration->status == 'pending')
+                <!-- Formulario cancelación -->
+                <x-cancelledForm :course_id="$course->id"/>
+            @else
+                <button type="submit" class="bg-blue-300 text-white font-bold py-2 px-4 rounded" disabled>Inscribirse</button>
+                <span class="text-red-600 mt-2">Cancelada</span>
+            @endif
         @else
             @if(auth()->check())
                 <!-- Formulario de inscripción -->
-                <form action="{{ route('registrations.store', ['course' => $course->id]) }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-                    <input type="hidden" name="course_id" value="{{ $course->id }}">
-                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Inscribirse</button>
-                </form>
-                <a href="#" class="text-blue-600 hover:underline mt-2">Ver material</a>
+                <x-registrationForm :course_id="$course->id"/>
+                <a href="{{route('material.byCourse', ['course' => $course])}}" class="text-blue-600 hover:underline mt-2 cursor-pointer">Ver material</a>
             @else
                 <button type="submit" class="bg-blue-300 text-white font-bold py-2 px-4 rounded" disabled>Inscribirse</button>
             @endif

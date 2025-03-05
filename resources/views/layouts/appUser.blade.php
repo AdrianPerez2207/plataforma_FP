@@ -25,7 +25,7 @@
                 <div class="w-full max-w-2xl px-6 lg:max-w-7xl">
                     <x-header/>
                     <hr class="mt-6 border-gray-300">
-                    <main class="mt-6">
+                    <main class="mt-6 flex-1 p-4">
                         @yield('content')
                     </main>
                 </div>

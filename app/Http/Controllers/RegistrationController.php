@@ -34,7 +34,7 @@ class RegistrationController extends Controller
             'student_id' => $user_id,
             'course_id' => $course_id,
         ]);
-        return redirect()->route('myCourses')->with('msg', 'Inscripción exitosa');
+        return redirect()->route('welcome')->with('msg', 'Inscripción exitosa');
     }
 
     /**
@@ -57,9 +57,9 @@ class RegistrationController extends Controller
             //Actualizamos la inscripción
             $registration->status = 'cancelled';
             $registration->save();
-            return redirect()->route('myCourses')->with('msg', 'Inscripción cancelada');
+            return redirect()->route('welcome')->with('msg', 'Inscripción cancelada');
         } else {
-            return redirect()->route('myCourses')->withErrors(['error-msg' => 'No estás inscrito en este curso']);
+            return redirect()->route('welcome')->withErrors(['error-msg' => 'No estás inscrito en este curso']);
         }
     }
 

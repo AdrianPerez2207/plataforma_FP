@@ -3,12 +3,9 @@
 
 <div class="container mx-auto">
     <div class="mb-4">
-        <x-secondary-button>
+        <a href="{{route('newCourse')}}" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
             Crear Nuevo Curso
-        </x-secondary-button>
-{{--        <button class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">--}}
-{{--            Crear Nuevo Curso--}}
-{{--        </button>--}}
+        </a>
     </div>
 
     <div class="overflow-x-auto bg-white shadow-md rounded-lg">

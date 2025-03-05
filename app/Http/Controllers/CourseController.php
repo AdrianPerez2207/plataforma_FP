@@ -11,7 +11,7 @@ class CourseController extends Controller
 {
     public function index()
     {
-        $courses = Course::paginate(16);
+        $courses = Course::paginate(22);
 
         return view('welcome', compact('courses'));
     }
@@ -31,6 +31,49 @@ class CourseController extends Controller
 
 
         return view('user.myCourses', compact('courses'));
+    }
+
+    /**
+     * Llevamos a la página de creación de cursos y le damos la lista de profesores
+     * @param Request $request
+     */
+    public function newCourse(Request $request)
+    {
+        $teachers = User::where('role', 'teacher')->get();
+        return view('admin.newCourse', compact('teachers'));
+
+    }
+
+    /**
+     * Creamos un nuevo curso, comprobamos los datos que nos llegan de la request y si es correcto, creamos el curso
+     * @param Request $request
+     */
+    public function create(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
+            'category' => 'required|string|max:255',
+            'duration' => 'required|string|max:255',
+            'teacher_id' => 'required|exists:users,id',
+        ]);
+        //Verificamos si ya existe un curso con el mismo nombre
+        if (Course::where('name', $request->name)->exists()){
+            return redirect()->back()->withErrors(['error-msg' => 'Ya existe un curso con ese nombre']);
+        }
+        //Creamos el curso
+        $course = Course::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'category' => $request->category,
+            'duration' => $request->duration,
+            'teacher_id' => $request->teacher_id,
+        ]);
+        if ($course != null){
+            return redirect()->route('dashboard')->with('msg', 'Curso creado correctamente');
+        } else {
+            return redirect()->back()->withErrors(['error-msg' => 'Error al crear el curso']);
+        }
     }
 
 
