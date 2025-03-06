@@ -21,7 +21,11 @@
         <h2 class="font-semibold text-3xl text-gray-800 leading-tight mb-6">
             Cursos de Formación Profesional
         </h2>
-        <div class="grid gap-6 lg:grid-cols-2 xl:grid-cols-4 lg:gap-8">
+        <!-- Filtros de búsqueda -->
+        <x-courseFilter :courses="$courses" route='courses.search'/>
+        <hr class="mt-6 mb-4">
+        <!-- Listado de cursos -->
+        <div class="grid gap-6 lg:grid-cols-2 xl:grid-cols-4 lg:gap-8 mt-5">
             @foreach($courses as $course)
                 @if($course->status == 'active')
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">

@@ -45,7 +45,7 @@
                             @endif
                         </td>
                         <td class="px-4 py-4 whitespace-nowrap text-sm font-medium">
-                            <button class="text-indigo-600 hover:text-indigo-900 hover:underline mr-2">Modificar</button>
+                            <a href="{{route('courses.modify', ['course' => $course->id])}}" class="text-indigo-600 hover:text-indigo-900 hover:underline mr-2">Modificar</a>
                             <button class="text-red-600 hover:text-red-900 hover:underline mr-2">Eliminar</button>
                             <button class="text-gray-600 hover:text-gray-900 hover:underline">Finalizar</button>
                         </td>

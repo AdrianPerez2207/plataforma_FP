@@ -76,6 +76,53 @@ class CourseController extends Controller
         }
     }
 
+    /**
+     * Buscamos los cursos que cumplan con los criterios de búsqueda.
+     * Devolvemos en la misma vista de los cursos, pero ahora filtrados por los criterios de búsqueda.
+     * @param Request $request
+     */
+    public function search(Request $request)
+    {
+        $courses = Course::query()->where('name', 'like', '%'.$request->nombre.'%')
+            ->where('category', 'like', '%'.$request->categoria.'%')
+            ->where('duration', '>=', '%'.$request->duracion.'%')
+            ->where('status', 'active')
+            ->paginate(16);
+
+        return view('welcome', ['courses' => $courses]);
+    }
+
+    /**
+     * Buscamos todos los cursos que coincidan con los datos que le pasamos y con el usuario que está logeado.
+     * @param Request $request
+     */
+    public function mySearch(Request $request)
+    {
+        $user = $request->user();
+        $courses = Course::query()->where('name', 'like', '%'.$request->nombre.'%')
+            ->where('category', 'like', '%'.$request->categoria.'%')
+            ->where('duration', '>=', '%'.$request->duracion.'%')
+            ->where('status', 'active')
+            ->whereHas('registrations', fn($query) => $query->where('student_id', $user->id)->where('status', 'approved'))
+            ->paginate(16);
+
+        return view('myCourses', ['courses' => $courses ]);
+    }
+
+    public function modify(Request $request, $id)
+    {
+        $course = Course::where('id', $id)->first();
+        $teachers = User::where('role', 'teacher')
+            ->where('id', '!=', $course->teacher_id)
+            ->get();
+        return view('admin.modifyCourse', compact('course', 'teachers'));
+    }
+
+    public function update(Request $request)
+    {
+
+    }
+
 
 
 
