@@ -11,14 +11,14 @@ class CourseController extends Controller
 {
     public function index()
     {
-        $courses = Course::paginate(22);
+        $courses = Course::where('status', 'active')->paginate(22);
 
         return view('welcome', compact('courses'));
     }
 
     public function dashboardIndex()
     {
-        $courses = Course::paginate(10);
+        $courses = Course::query()->orderBy('status', 'asc')->paginate(22);
         return view('admin.dashboard', compact('courses'));
     }
 
@@ -109,6 +109,11 @@ class CourseController extends Controller
         return view('myCourses', ['courses' => $courses ]);
     }
 
+    /**
+     * Llevamos a la página de modificación de cursos y le damos la lista de profesores y el curso a modificar.
+     * @param Request $request
+     * @param $id
+     */
     public function modify(Request $request, $id)
     {
         $course = Course::where('id', $id)->first();
@@ -118,9 +123,55 @@ class CourseController extends Controller
         return view('admin.modifyCourse', compact('course', 'teachers'));
     }
 
-    public function update(Request $request)
+    /**
+     * Moidificamos un curso y actualizamos los datos en la base de datos.
+     * @param Request $request
+     * @param Course $course
+     */
+    public function update(Request $request, Course $course)
     {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
+            'category' => 'required|string|max:255',
+            'duration' => 'required|string|max:255',
+            'teacher_id' => 'required|exists:users,id',
+        ]);
+        if ($course->update($request->all())){
+            return redirect()->route('dashboard')->with('msg', 'Curso actualizado correctamente');
+        } else {
+            return redirect()->back()->withErrors(['error-msg' => 'Error al actualizar el curso']);
+        }
 
+    }
+
+    /**
+     * Eliminamos un curso.
+     * @param Course $course
+     */
+    public function destroy(Course $course){
+        if ($course->delete()){
+            return redirect()->route('dashboard')->with('msg', 'Curso eliminado correctamente');
+        } else {
+            return redirect()->back()->withErrors(['error-msg' => 'Error al eliminar el curso']);
+        }
+    }
+
+    /**
+     * Cambiamos el estado de un curso a finalizado.
+     * @param Course $course
+     */
+    public function finished(Course $course){
+        if ($course->status == 'active'){
+            $course->status = 'finished';
+            if ($course->save()){
+                return redirect()->route('dashboard')->with('msg', 'Curso finalizado correctamente');
+            } else {
+                return redirect()->back()->withErrors(['error-msg' => 'Error al finalizar el curso']);
+            }
+        } else {
+            return redirect()->back()->withErrors(['error-msg' => 'El curso ya ha sido finalizado']);
+        }
     }
 
 

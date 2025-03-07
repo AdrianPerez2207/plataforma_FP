@@ -4,6 +4,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseMaterialController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -11,10 +12,16 @@ Route::get('/', [CourseController::class, 'index'])->name('welcome');
 
 Route::middleware(['auth', 'verified', 'role:teacher,admin'])->group(function () {
     Route::get('/dashboard', [CourseController::class, 'dashboardIndex'])->name('dashboard');
+    Route::get('/dashboardUser', [UserController::class, 'dashboardUser'])->name('dashboardUser');
     Route::get('/newCourse', [CourseController::class, 'newCourse'])->name('newCourse');
+    Route::get('/newUser', [UserController::class, 'newUser'])->name('newUser');
     Route::post('/create', [CourseController::class, 'create'])->name('create');
+    Route::post('/user/create', [UserController::class, 'create'])->name('user.create');
     Route::get('/{course}/modify', [CourseController::class, 'modify'])->name('courses.modify');
-    Route::put('/courses/update/{course}', [CourseController::class, 'update'])->name('courses.update');
+    Route::post('/courses/update/{course}', [CourseController::class, 'update'])->name('courses.update');
+    Route::get('/courses/destroy/{course}', [CourseController::class, 'destroy'])->name('course.destroy');
+    Route::get('/courses/finished/{course}', [CourseController::class, 'finished'])->name('course.finished');
+    Route::get('/users/destroy/{user}', [UserController::class, 'destroy'])->name('user.destroy');
 });
 
 Route::middleware('auth')->group(function () {

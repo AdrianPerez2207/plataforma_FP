@@ -31,23 +31,23 @@
                         <td class="px-4 py-4">{{ $course->duration }}</td>
                         <td class="px-4 py-4">
                             @if($course->status == 'active')
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-300 text-green-800">
                                     {{ $course->status }}
                                 </span>
-                                    @elseif($course->status == 'rejected')
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                    @elseif($course->status == 'cancelled')
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-300 text-red-800">
                                     {{ $course->status }}
                                 </span>
                                     @else
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-300 text-gray-800">
                                     {{ $course->status }}
                                 </span>
                             @endif
                         </td>
                         <td class="px-4 py-4 whitespace-nowrap text-sm font-medium">
                             <a href="{{route('courses.modify', ['course' => $course->id])}}" class="text-indigo-600 hover:text-indigo-900 hover:underline mr-2">Modificar</a>
-                            <button class="text-red-600 hover:text-red-900 hover:underline mr-2">Eliminar</button>
-                            <button class="text-gray-600 hover:text-gray-900 hover:underline">Finalizar</button>
+                            <a href="{{route('course.destroy', ['course' => $course->id])}}" class="text-red-600 hover:text-red-900 hover:underline mr-2">Eliminar</a>
+                            <a href="{{route('course.finished', ['course' => $course->id])}}" class="text-gray-600 hover:text-gray-900 hover:underline">Finalizar</a>
                         </td>
                     </tr>
                 @endforeach
