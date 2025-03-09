@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard/Usuarios') }}
+            {{ __('Dashboard/Inscripciones') }}
         </h2>
     </x-slot>
     <div class="py-12">
@@ -23,11 +23,11 @@
             @endif
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg min-w-full">
                 <div class="p-6 text-gray-900 min-w-full">
-                    <x-private.users.users :users="$users"/>
+                    <x-private.registrations.registrations :registrations="$registrations"/>
                 </div>
             </div>
             <div class="mt-5 mb-4">
-                {{$users->links()}}
+                {{$registrations->links()}}
             </div>
         </div>
     </div>

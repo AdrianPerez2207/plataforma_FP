@@ -63,6 +63,74 @@ class RegistrationController extends Controller
         }
     }
 
+    /**
+     * Sacamos todas las inscripciones de un usuario y las mostramos en la vista de inscripciones.
+     * Comprobamos si el usuario es un administrador o un profesor y muestra las inscripciones de los cursos que pertenecen a él.
+     * @param Request $request
+     */
+    public function dashboardRegistration(Request $request){
+        if ($request->user()->role === 'admin'){
+            $registrations = Registration::query()->orderBy('status', 'asc')->paginate(22);
+            if ($registrations){
+                return view('admin.dashboardRegistration', compact('registrations'));
+            } else {
+                return back()->withErrors(['error-msg' => 'No hay inscripciones']);
+            }
+        } else {
+            // Obtener los cursos del profesor y con pluck obtenemos solo las columnas de los IDs
+            $courses = Course::where('teacher_id', $request->user()->id)->pluck('id');
+
+            if ($courses->isEmpty()) {
+                return back()->withErrors(['error-msg' => 'No tienes cursos asignados']);
+            }
+
+            // Obtener las inscripciones de los cursos del profesor
+            $registrations = Registration::whereIn('course_id', $courses)
+                ->orderBy('status', 'asc')
+                ->paginate(22);
+
+            return view('admin.dashboardRegistration', compact('registrations'));
+        }
+    }
+
+    /**
+     * Cambiamos el estado de una inscripción de pendiente a aprobada.
+     * @param Registration $registration
+     */
+    public function change(Registration $registration){
+
+        $registration = Registration::where('id', $registration->id)->first();
+        if ($registration->status == 'pending'){
+            $registration->status = 'approved';
+            if ($registration->update()){
+                return redirect()->route('dashboardRegistration', ['user' => Auth::user()])->with('msg', 'Inscripción cambiada');
+            } else {
+                return redirect()->back()->withErrors(['error-msg' => 'Error al cambiar la inscripción']);
+            }
+        } else {
+            return redirect()->back()->withErrors(['error-msg' => 'La inscripción ya ha sido aprobada']);
+        }
+    }
+
+    /**
+     * Cambiamos el estado de una inscripción de aprobada a cancelada.
+     * @param Registration $registration
+     */
+    public function cancelled(Registration $registration){
+
+        $registration = Registration::where('id', $registration->id)->first();
+        if ($registration->status == 'approved'){
+            $registration->status = 'cancelled';
+            if ($registration->update()){
+                return redirect()->route('dashboardRegistration', ['user' => Auth::user()])->with('msg', 'Inscripción cancelada');
+            } else {
+                return redirect()->back()->withErrors(['error-msg' => 'Error al cambiar la inscripción']);
+            }
+        } else {
+            return redirect()->back()->withErrors(['error-msg' => 'La inscripción ya ha sido cancelada']);
+        }
+    }
+
 
     //---Sección API-----
 

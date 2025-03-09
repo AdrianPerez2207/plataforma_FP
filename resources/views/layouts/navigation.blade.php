@@ -32,7 +32,7 @@
                             <x-dropdown-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                                 {{ __('Cursos') }}
                             </x-dropdown-link>
-                            <x-dropdown-link :href="route('dashboard')" :active="request()->routeIs('registrations')">
+                            <x-dropdown-link :href="route('dashboardRegistration', [Auth::user()])" :active="request()->routeIs('registrations')">
                                 {{ __('Inscripciones') }}
                             </x-dropdown-link>
                             <x-dropdown-link :href="route('dashboardUser')" :active="request()->routeIs('users')">
