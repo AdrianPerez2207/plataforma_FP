@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseMaterialController;
+use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\UserController;
@@ -19,19 +20,23 @@ Route::middleware(['auth', 'verified', 'role:teacher,admin'])->group(function ()
     Route::get('/courses/finished/{course}', [CourseController::class, 'finished'])->name('course.finished');
     Route::post('/courses/update/{course}', [CourseController::class, 'update'])->name('courses.update');
 
-    //Users
-    Route::get('/dashboardUser', [UserController::class, 'dashboardUser'])->name('dashboardUser');
-    Route::get('/dashboardRegistration/{user}', [RegistrationController::class, 'dashboardRegistration'])->name('dashboardRegistration');
-    Route::get('/newUser', [UserController::class, 'newUser'])->name('newUser');
-    Route::get('/users/destroy/{user}', [UserController::class, 'destroy'])->name('user.destroy');
-    Route::post('/create', [CourseController::class, 'create'])->name('create');
-    Route::post('/user/create', [UserController::class, 'create'])->name('user.create');
+    //Users sólo pueden entrar los administradores
+    Route::middleware('role:admin')->group(function () {
+        Route::get('/dashboardUser', [UserController::class, 'dashboardUser'])->name('dashboardUser');
+        Route::get('/newUser', [UserController::class, 'newUser'])->name('newUser');
+        Route::get('/users/destroy/{user}', [UserController::class, 'destroy'])->name('user.destroy');
+        Route::post('/create', [CourseController::class, 'create'])->name('create');
+        Route::post('/user/create', [UserController::class, 'create'])->name('user.create');
+    });
 
     //Registrations
+    Route::get('/dashboardRegistration/{user}', [RegistrationController::class, 'dashboardRegistration'])->name('dashboardRegistration');
     Route::get('/registrations/change/{registration}', [RegistrationController::class, 'change'])->name('registration.change');
     Route::get('/registrations/cancelled/{registration}', [RegistrationController::class, 'cancelled'])->name('registration.cancelled');
-});
 
+    //Evaluations
+    Route::get('/dashboardEvaluations/{user}', [EvaluationController::class, 'dashboardEvaluations'])->name('dashboardEvaluations');
+});
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

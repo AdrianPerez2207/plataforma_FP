@@ -35,10 +35,12 @@
                             <x-dropdown-link :href="route('dashboardRegistration', [Auth::user()])" :active="request()->routeIs('registrations')">
                                 {{ __('Inscripciones') }}
                             </x-dropdown-link>
-                            <x-dropdown-link :href="route('dashboardUser')" :active="request()->routeIs('users')">
-                                {{ __('Usuarios') }}
-                            </x-dropdown-link>
-                            <x-dropdown-link :href="route('dashboard')" :active="request()->routeIs('evaluations')">
+                            @if(Auth::user()->role === 'admin')
+                                <x-dropdown-link :href="route('dashboardUser')" :active="request()->routeIs('users')">
+                                    {{ __('Usuarios') }}
+                                </x-dropdown-link>
+                            @endif
+                            <x-dropdown-link :href="route('dashboardEvaluations', [Auth::user()])" :active="request()->routeIs('evaluations')">
                                 {{ __('Evaluaciones') }}
                             </x-dropdown-link>
                         @else
@@ -60,7 +62,7 @@
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                                {{ __('Cerrar sesión') }}
                             </x-dropdown-link>
                         </form>
                     </x-slot>
