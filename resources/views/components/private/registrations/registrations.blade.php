@@ -25,6 +25,9 @@
                                 </span>
                             </td>
                             <td class="px-4 py-4 whitespace-nowrap text-sm font-medium">
+                                <a href="{{route('newEvaluation', ['registration' => $registration->id])}}" class="text-green-500 hover:underline mr-2">
+                                    Evaluar
+                                </a>
                                 <a href="{{route('registration.cancelled', ['registration' => $registration->id])}}" class="text-red-600 hover:text-red-900 hover:underline mr-2">Cancelar</a>
                             </td>
                         @elseif($registration->status == 'pending')

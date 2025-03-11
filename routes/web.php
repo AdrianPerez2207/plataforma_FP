@@ -36,6 +36,8 @@ Route::middleware(['auth', 'verified', 'role:teacher,admin'])->group(function ()
 
     //Evaluations
     Route::get('/dashboardEvaluations/{user}', [EvaluationController::class, 'dashboardEvaluations'])->name('dashboardEvaluations');
+    Route::get('/newEvaluation/{registration}', [EvaluationController::class, 'newEvaluation'])->name('newEvaluation');
+    Route::post('/evaluations/create/{registration}', [EvaluationController::class, 'create'])->name('create');
 });
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

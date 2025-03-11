@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use App\Models\Evaluation;
+use App\Models\Registration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -38,5 +39,33 @@ class EvaluationController extends Controller
             return view('admin.dashboardEvaluations', compact('evaluations'));
         }
 
+    }
+
+    /**
+     * Redirigimos a la vista para evaluar a un alumno, le pasamos la inscripción y de ahí sacamos el curso y el alumno.
+     * @param Registration $registration
+     */
+    public function newEvaluation(Registration $registration)
+    {
+        return view('admin.newEvaluation', compact('registration'));
+    }
+    public function create(Request $request, Registration $registration){
+        $request->validate([
+            'final_score' => 'required',
+            'comment' => 'required'
+        ]);
+
+        $evaluation = Evaluation::create([
+            'final_score' => $request->final_score,
+            'comment' => $request->comment,
+            'course_id' => $registration->course_id,
+            'student_id' => $registration->student_id,
+        ]);
+
+        if ($evaluation != null){
+            return redirect()->route('dashboardEvaluations', [Auth::user()])->with('msg', 'Evaluación creada');
+        } else {
+            return redirect()->back()->withErrors(['error-msg' => 'Error al crear la evaluación']);
+        }
     }
 }

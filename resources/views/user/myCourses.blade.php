@@ -21,9 +21,9 @@
         <h2 class="font-semibold text-3xl text-gray-800 leading-tight mb-6">
             Mis Cursos
         </h2>
-        <!-- Filtros de búsqueda -->
-        <x-courseFilter :courses="$courses" route="myCourses.search"/>
-        <hr class="mt-6 mb-4">
+{{--        <!-- Filtros de búsqueda -->--}}
+{{--        <x-courseFilter :courses="$courses" route="myCourses.search"/>--}}
+{{--        <hr class="mt-6 mb-4">--}}
 
         <!-- Listado de cursos -->
         <div class="grid gap-6 lg:grid-cols-2 xl:grid-cols-4 lg:gap-8">

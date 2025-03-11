@@ -1,6 +1,7 @@
 @props(['evaluations'])
 
 <div class="container mx-auto">
+
     <div class="overflow-x-auto bg-white shadow-md rounded-lg w-full">
         <table class="min-w-full table-auto">
             <thead class="bg-gray-200">
