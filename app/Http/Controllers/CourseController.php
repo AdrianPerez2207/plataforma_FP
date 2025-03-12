@@ -6,6 +6,7 @@ use App\Http\Resources\CourseResource;
 use App\Models\Course;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CourseController extends Controller
 {
@@ -18,7 +19,12 @@ class CourseController extends Controller
 
     public function dashboardIndex()
     {
-        $courses = Course::query()->orderBy('status', 'asc')->paginate(22);
+        if (Auth::user()->role == 'admin'){
+            $courses = Course::query()->orderBy('status', 'asc')->paginate(22);
+        } else{
+            $courses = Course::query()->where('teacher_id', Auth::user()->id)->paginate(22);
+        }
+
         return view('admin.dashboard', compact('courses'));
     }
 
