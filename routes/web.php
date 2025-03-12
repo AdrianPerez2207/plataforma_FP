@@ -40,7 +40,7 @@ Route::middleware(['auth', 'verified', 'role:teacher,admin'])->group(function ()
     //Evaluations
     Route::get('/dashboardEvaluations/{user}', [EvaluationController::class, 'dashboardEvaluations'])->name('dashboardEvaluations');
     Route::get('/newEvaluation/{registration}', [EvaluationController::class, 'newEvaluation'])->name('newEvaluation');
-    Route::post('/evaluations/create/{registration}', [EvaluationController::class, 'create'])->name('create');
+    Route::post('/evaluations/create/{registration}', [EvaluationController::class, 'create'])->name('evaluation.create');
 
     //Materials
     Route::get('/materials/{course}', [CourseMaterialController::class, 'index'])->name('materials.index');

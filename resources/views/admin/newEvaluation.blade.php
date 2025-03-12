@@ -17,5 +17,5 @@
             </ul>
         </div>
     @endif
-    <x-private.evaluations.formEvaluation :method="'POST'" :action="route('create', ['registration' => $registration])" :registration="$registration"/>
+    <x-private.evaluations.formEvaluation :method="'POST'" :action="route('evaluation.create', ['registration' => $registration])" :registration="$registration"/>
 </x-guest-layout>
