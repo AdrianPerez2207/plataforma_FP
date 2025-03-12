@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [CourseController::class, 'index'])->name('welcome');
+Route::get('/presentation', function () {
+    return view('user.presentation');
+})->name('presentation');
 
 Route::middleware(['auth', 'verified', 'role:teacher,admin'])->group(function () {
     //Courses
@@ -38,6 +41,10 @@ Route::middleware(['auth', 'verified', 'role:teacher,admin'])->group(function ()
     Route::get('/dashboardEvaluations/{user}', [EvaluationController::class, 'dashboardEvaluations'])->name('dashboardEvaluations');
     Route::get('/newEvaluation/{registration}', [EvaluationController::class, 'newEvaluation'])->name('newEvaluation');
     Route::post('/evaluations/create/{registration}', [EvaluationController::class, 'create'])->name('create');
+
+    //Materials
+    Route::get('/materials/{course}', [CourseMaterialController::class, 'index'])->name('materials.index');
+    Route::post('/materials/create/{course}', [CourseMaterialController::class, 'create'])->name('materials.create');
 });
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

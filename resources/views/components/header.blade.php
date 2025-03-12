@@ -19,6 +19,9 @@
                     <x-nav-link :href="route('myCourses')" :active="request()->routeIs('myCourses')">
                         {{ __('Mis Cursos') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('presentation')" :active="request()->routeIs('presentation')">
+                        {{ __('Sobre nosotros') }}
+                    </x-nav-link>
                     <x-nav-link :href="route('profile.edit')" :active="request()->routeIs('profile.edit')">
                         {{ __('Perfil') }}
                     </x-nav-link>
@@ -33,6 +36,18 @@
                     </form>
                 @endif
             @else
+                <a
+                    href="{{ route('welcome') }}"
+                    class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
+                >
+                    Cursos
+                </a>
+                <a
+                    href="{{ route('presentation') }}"
+                    class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"
+                >
+                    Sobre nosotros
+                </a>
                 <a
                     href="{{ route('login') }}"
                     class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]"

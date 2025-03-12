@@ -108,9 +108,9 @@ return [
     | Password Confirmation Timeout
     |--------------------------------------------------------------------------
     |
-    | Here you may define the amount of seconds before a password confirmation
+    | Here you may define the amount of seconds before a password confirmation.blade.php
     | window expires and users are asked to re-enter their password via the
-    | confirmation screen. By default, the timeout lasts for three hours.
+    | confirmation.blade.php screen. By default, the timeout lasts for three hours.
     |
     */
 

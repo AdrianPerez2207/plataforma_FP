@@ -19,6 +19,7 @@
                     <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Duración</th>
                     <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
                     <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Materiales</th>
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
@@ -48,6 +49,10 @@
                             <a href="{{route('courses.modify', ['course' => $course->id])}}" class="text-indigo-600 hover:text-indigo-900 hover:underline mr-2">Modificar</a>
                             <a href="{{route('course.destroy', ['course' => $course->id])}}" class="text-red-600 hover:text-red-900 hover:underline mr-2">Eliminar</a>
                             <a href="{{route('course.finished', ['course' => $course->id])}}" class="text-gray-600 hover:text-gray-900 hover:underline">Finalizar</a>
+                        </td>
+                        <td class="px-4 py-4 whitespace-nowrap text-sm font-medium text-center">
+                            <a href="{{route('materials.index', ['course' => $course->id])}}"
+                               class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded">Añadir</a>
                         </td>
                     </tr>
                 @endforeach

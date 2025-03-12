@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ConfirmationEmail;
 use App\Models\Course;
 use App\Models\Registration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use function Pest\Laravel\delete;
 
 class RegistrationController extends Controller
@@ -100,9 +102,11 @@ class RegistrationController extends Controller
     public function change(Registration $registration){
 
         $registration = Registration::where('id', $registration->id)->first();
-        if ($registration->status == 'pending'){
+        if ($registration->status == 'pending' || $registration->status == 'cancelled'){
             $registration->status = 'approved';
             if ($registration->update()){
+                //Mandamos un email de confirmación
+                Mail::to($registration->user->email)->send(new ConfirmationEmail($registration));
                 return redirect()->route('dashboardRegistration', ['user' => Auth::user()])->with('msg', 'Inscripción cambiada');
             } else {
                 return redirect()->back()->withErrors(['error-msg' => 'Error al cambiar la inscripción']);
